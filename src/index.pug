@@ -1,0 +1,20 @@
+extends templates/layout
+//- не забыть про отступ
+block content
+  section.game__start(v-if="screenStart")
+    img(src="./img/StartGame.png" srcset="./img/StartGame.png 1x, ./img/StartGame@2x.png 2x" alt="")
+    h1.game__name Memory Game
+    button#play.btn.btn__play(v-on:click="gamePlay") Начать игру
+  section.game__play(v-else-if="screenPlay")
+    .game__play-header
+      button#play-start-over.btn.btn__start-over Начать заново
+      span.game__score Очки:&nbsp;&nbsp;&nbsp;&nbsp;
+      span#score.game__score {{ points }}
+    .game__play-cards
+  section.game__end(v-else)
+    img(src="./img/Group 2.png" srcset="./img/Group 2.png 1x, ./img/Group 2@2x.png 2x" alt="")
+    h2.game__final-score Поздравляем!
+      br 
+      | Ваш итоговый счет: 
+      span#final-score {{ points }}
+    button#play-again.btn.btn__again(v-on:click="gamePlayAgain") Еще раз
