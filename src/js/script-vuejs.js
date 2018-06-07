@@ -7,7 +7,9 @@ var app = new Vue ({
       points: 0,
       CARDS_ARRAY: ['0', '2', '3', '4', '5', '6', '7', '8', '9', 'J', 'A', 'K', 'Q'],
       CARDS_ARRAY_STR:['C', 'D', 'H', 'S'],
-      cards: []
+      cards: [],
+      isOutside: false,
+      timeOutsideCards: 5000
     }
   },
   computed: {
@@ -17,15 +19,20 @@ var app = new Vue ({
       this.screenStart = false;
       this.screenPlay = true;
       this.randomCards();
+      this.setOutsideCardsForTime();
     },
     gamePlayAgain: function () {
       this.screenStart = false;
       this.screenPlay = true;
+      this.isOutside = false;
       this.setPointsZero();
+      this.setOutsideCardsForTime();
     },
     gameStartOver: function () {
+      this.isOutside = false;
       this.randomCards();
       this.setPointsZero();
+      this.setOutsideCardsForTime();
     },
     setPointsZero: function () {
       this.points = 0;
@@ -53,8 +60,12 @@ var app = new Vue ({
       for (var i = 0; i < 18; i++) {
         this.cards.push(cardsResultTemp.splice(this.randomValueArray(cardsResultTemp), 1)[0]);
       }
-
-      return this.cards;
+    },
+    setOutsideCards: function () {
+      this.isOutside = true;
+    },
+    setOutsideCardsForTime: function () {
+      setTimeout(this.setOutsideCards, this.timeOutsideCards);
     }
   }
 });

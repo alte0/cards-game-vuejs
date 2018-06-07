@@ -11,7 +11,7 @@ block content
       span.game__score Очки:&nbsp;&nbsp;&nbsp;&nbsp;
       span#score.game__score {{ points }}
     .game__play-cards
-      .card(v-for="card in cards" v-bind:class="card")
+      .card(v-for="card in cards" v-bind:class="[card, { card__outside: isOutside }]")
   section.game__end(v-else)
     img(src="./img/Group 2.png" srcset="./img/Group 2.png 1x, ./img/Group 2@2x.png 2x" alt="")
     h2.game__final-score Поздравляем!
