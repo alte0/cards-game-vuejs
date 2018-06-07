@@ -9,7 +9,13 @@ var app = new Vue ({
       CARDS_ARRAY_STR:['C', 'D', 'H', 'S'],
       cards: [],
       isOutside: false,
-      timeOutsideCards: 5000
+      TIME_OUTSIDE_CARDS: 5000,
+      counterCheckCard: 0,
+      TIME_JOB_CARD: 2000,
+      timerOutsideCardsId: '',
+      timerSetOutsideCardsId: '',
+      MULTIPLIED_NUM: 42,
+      ALL_CARDS_NUM: 18
     }
   },
   computed: {
@@ -64,8 +70,53 @@ var app = new Vue ({
     setOutsideCards: function () {
       this.isOutside = true;
     },
+    clearTimeId: function (timerID) {
+      if (timerID) {
+        clearTimeout(timerID);
+      }
+    },
     setOutsideCardsForTime: function () {
-      setTimeout(this.setOutsideCards, this.timeOutsideCards);
+      this.clearTimeId(this.timerOutsideCardsId);
+      this.timerOutsideCardsId = setTimeout(this.setOutsideCards, this.TIME_OUTSIDE_CARDS);
+    },
+    setOneClassOpenCards: function () {
+      var elements = document.querySelectorAll('.card[data-open="true"]');
+      [].forEach.call(elements, function (item) {
+        item.className = 'card';
+        item.removeAttribute('data-open');
+      });
+      this.counterCheckCard = 0;
+    },
+    setClassOutside: function () {
+      this.counterCheckCard = 0;
+      var elements = document.querySelectorAll('.card[data-open="true"]');
+      [].forEach.call(elements, function (item) {
+        item.classList.toggle('card__outside');
+        item.removeAttribute('data-open');
+      });
+    },
+    checkCardsOpen: function () {
+      var cards = document.querySelectorAll('.card[data-open="true"]');
+      var card1 = cards[0].className.substring(5);
+      var card2 = cards[1].className.substring(5);
+      if (card1 === card2) {
+        setTimeout(this.setOneClassOpenCards, this.TIME_JOB_CARD);
+      } else {
+        this.clearTimeId(this.timerSetOutsideCardsId);
+        this.timerSetOutsideCardsId = setTimeout(this.setClassOutside, this.TIME_JOB_CARD);
+      }
+    },
+    clickCardHandler: function (evt) {
+      if (this.isOutside && evt.target.classList.contains('card__outside')) {
+        if (this.counterCheckCard < 2) {
+          this.counterCheckCard++;
+          evt.target.setAttribute('data-open', 'true');
+          evt.target.classList.toggle('card__outside');
+        } 
+        if (this.counterCheckCard === 2) {
+          this.checkCardsOpen();
+        }
+      }
     }
   }
 });
