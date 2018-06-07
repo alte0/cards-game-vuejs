@@ -7,10 +7,11 @@ block content
     button#play.btn.btn__play(v-on:click="gamePlay") Начать игру
   section.game__play(v-else-if="screenPlay")
     .game__play-header
-      button#play-start-over.btn.btn__start-over Начать заново
+      button#play-start-over.btn.btn__start-over(v-on:click="gameStartOver") Начать заново
       span.game__score Очки:&nbsp;&nbsp;&nbsp;&nbsp;
       span#score.game__score {{ points }}
     .game__play-cards
+      .card(v-for="card in cards" v-bind:class="card")
   section.game__end(v-else)
     img(src="./img/Group 2.png" srcset="./img/Group 2.png 1x, ./img/Group 2@2x.png 2x" alt="")
     h2.game__final-score Поздравляем!
