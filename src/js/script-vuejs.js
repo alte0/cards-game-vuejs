@@ -12,10 +12,12 @@ var app = new Vue ({
       TIME_OUTSIDE_CARDS: 5000,
       counterCheckCard: 0,
       TIME_JOB_CARD: 2000,
+      TIME_JOB_CARD_ZERO: 1000,
       timerOutsideCardsId: '',
       timerSetOutsideCardsId: '',
       MULTIPLIED_NUM: 42,
-      ALL_CARDS_NUM: 18
+      UNSOLVED_PAIRS_CARDS: 9,
+      OPEN_PAIRS_CARDS: 0
     }
   },
   computed: {
@@ -32,13 +34,20 @@ var app = new Vue ({
       this.screenPlay = true;
       this.isOutside = false;
       this.setPointsZero();
+      this.OPEN_PAIRS_CARDS = 0;
+      this.UNSOLVED_PAIRS_CARDS = 9;
       this.setOutsideCardsForTime();
     },
     gameStartOver: function () {
       this.isOutside = false;
       this.randomCards();
       this.setPointsZero();
+      this.OPEN_PAIRS_CARDS = 0;
+      this.UNSOLVED_PAIRS_CARDS = 9;
       this.setOutsideCardsForTime();
+    },
+    gameEnd: function () {
+      this.screenPlay = false;
     },
     setPointsZero: function () {
       this.points = 0;
@@ -86,6 +95,12 @@ var app = new Vue ({
         item.removeAttribute('data-open');
       });
       this.counterCheckCard = 0;
+      this.UNSOLVED_PAIRS_CARDS = this.UNSOLVED_PAIRS_CARDS - 1;
+      this.OPEN_PAIRS_CARDS = this.OPEN_PAIRS_CARDS + 1;
+      this.points = this.points + this.UNSOLVED_PAIRS_CARDS * this.MULTIPLIED_NUM;
+      if (this.UNSOLVED_PAIRS_CARDS === 0) {
+        setTimeout(this.gameEnd, this.TIME_JOB_CARD_ZERO)
+      }
     },
     setClassOutside: function () {
       this.counterCheckCard = 0;
@@ -94,6 +109,7 @@ var app = new Vue ({
         item.classList.toggle('card__outside');
         item.removeAttribute('data-open');
       });
+      this.points = this.points - this.OPEN_PAIRS_CARDS * this.MULTIPLIED_NUM;
     },
     checkCardsOpen: function () {
       var cards = document.querySelectorAll('.card[data-open="true"]');

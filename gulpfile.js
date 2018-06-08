@@ -114,9 +114,9 @@ gulp.task('stylus', function() {
 gulp.task('javascript', function() {
   return gulp.src(path.src.js)
     .pipe(plumber())
-    .pipe(sourcemaps.init())
+    // .pipe(sourcemaps.init())
       .pipe(concat('script.js'))
-    .pipe(sourcemaps.write())
+    // .pipe(sourcemaps.write())
     .pipe(gulp.dest(path.build.js))
     .pipe(browserSync.stream());
 });
