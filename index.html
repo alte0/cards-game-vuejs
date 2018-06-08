@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Memory Game</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+  </head>
+  <body>
+    <main class="game" id="app">
+      <section class="game__start" v-if="screenStart"><img src="./img/StartGame.png" srcset="./img/StartGame.png 1x, ./img/StartGame@2x.png 2x" alt="">
+        <h1 class="game__name">Memory Game</h1>
+        <button class="btn btn__play" id="play" v-on:click="gamePlay">Начать игру</button>
+      </section>
+      <section class="game__play" v-else-if="screenPlay">
+        <div class="game__play-header">
+          <button class="btn btn__start-over" id="play-start-over" v-on:click="gameStartOver">Начать заново</button><span class="game__score">Очки:&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="game__score" id="score">{{ points }}</span>
+        </div>
+        <div class="game__play-cards">
+          <div class="card" v-for="card in cards" v-bind:class="[card, { card__outside: isOutside }]" v-on:click="clickCardHandler"></div>
+        </div>
+      </section>
+      <section class="game__end" v-else><img src="./img/Group 2.png" srcset="./img/Group 2.png 1x, ./img/Group 2@2x.png 2x" alt="">
+        <h2 class="game__final-score">Поздравляем!<br>Ваш итоговый счет: <span id="final-score">{{ points }}</span></h2>
+        <button class="btn btn__again" id="play-again" v-on:click="gamePlayAgain">Еще раз</button>
+      </section>
+      <footer></footer>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
