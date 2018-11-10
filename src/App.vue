@@ -47,7 +47,7 @@ body {
   color: #fff;
   display: flex;
   justify-content: center;
-  align-items: center;
+  // align-items: center;
   flex-direction: column;
   @media screen and (min-height: 387px){
     height: 100vh;
@@ -74,7 +74,7 @@ img {
   font-size: 1rem;
   line-height: 1.375rem;
   color: #1c7430;
-  font-family: Open Sans,sans-serif;
+  font-family: 'Open Sans',sans-serif;
   font-weight: 700;
   background-color: #fff;
   opacity: .85;
@@ -82,7 +82,17 @@ img {
   border: 0;
   outline: none;
   padding: .6rem .5rem;
-  padding: 1.7% 1.6%;
   cursor: pointer;
+  &_start-over {
+    opacity: .8;
+    font-family: 'Open Sans',sans-serif;
+    font-size: .875rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -.25px;
+    background-color: transparent;
+    padding: 0;
+    margin-right: auto;
+  }
 }
 </style>
