@@ -1,26 +1,50 @@
 {
-  "name": "gulp-next",
-  "version": "1.0.0",
-  "description": "build for Alte0",
-  "main": "index.js",
+  "name": "cards-game-vuejs",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp build"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
-  "author": "alte0",
-  "license": "UNLICENSED",
   "dependencies": {
-    "browser-sync": "^2.23.5",
-    "del": "^3.0.0",
-    "gulp": "^4.0.0",
-    "gulp-autoprefixer": "^4.1.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-cssnano": "^2.1.2",
-    "gulp-imagemin": "^4.1.0",
-    "gulp-plumber": "^1.2.0",
-    "gulp-pug": "^3.3.0",
-    "gulp-sourcemaps": "^2.6.3",
-    "gulp-stylus": "^2.7.0",
-    "imagemin-pngquant": "^5.0.1"
-  }
+    "vue": "^2.5.17"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.1.1",
+    "@vue/cli-plugin-eslint": "^3.1.1",
+    "@vue/cli-service": "^3.1.1",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0-0",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "vue-cli-plugin-pug": "^1.0.7",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/standard"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }
