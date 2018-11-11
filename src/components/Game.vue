@@ -5,18 +5,17 @@
       span Очки:&nbsp;
       span {{ gamePoints }}
     .game-cards
-      //- .card(v-for="card in dataCards" v-bind:class="[card, { card__outside: isOutside }]" v-on:click="clickCardHandler")
-      .card(v-for="card in dataCards" v-bind:class="[card, { card__outside: isOutside }]")
+      .card(v-for="card in dataCards" v-bind:class="[card, { card__outside: isOutside }]" v-on:click="clickCardHandler($event)")
 </template>
 
 <script>
 export default {
-  props: ['gamePoints', 'dataCards', 'onRestartGame'],
+  props: ['gamePoints', 'dataCards', 'onRestartGame', 'setPoint'],
   data () {
     return {
       isOutside: false,
-      TIME_OUTSIDE_CARDS: 5000,
-      counterCheckCard: 0,
+      TIME_OUTSIDE_CARDS: 3000,
+      counterOpenCard: 0,
       TIME_JOB_CARD: 2000,
       TIME_JOB_CARD_ZERO: 1000,
       timerOutsideCardsId: null,
@@ -35,9 +34,6 @@ export default {
     // gameEnd () {
     //   this.screenPlay = false
     // },
-    // setPointsZero () {
-    //   this.points = 0
-    // },
     setOutsideCards () {
       this.isOutside = true
     },
@@ -50,54 +46,61 @@ export default {
       this.isOutside = false
       this.clearTimeId(this.timerOutsideCardsId)
       this.timerOutsideCardsId = setTimeout(this.setOutsideCards, this.TIME_OUTSIDE_CARDS)
-    }
-    // ,
-    // setOneClassOpenCards () {
-    //   var elements = document.querySelectorAll('.card[data-open="true"]')
-    //   elements.forEach(function (item) {
-    //     item.className = 'card'
-    //     item.removeAttribute('data-open')
-    //   })
-    //   this.counterCheckCard = 0
+    },
+    setOneClassOpenCards () {
+      var elements = document.querySelectorAll('.card[data-open="true"]')
+      elements.forEach((item) => {
+        item.className = 'card'
+        item.removeAttribute('data-open')
+      })
+      this.counterOpenCard = 0
     //   this.UNSOLVED_PAIRS_CARDS = this.UNSOLVED_PAIRS_CARDS - 1
     //   this.OPEN_PAIRS_CARDS = this.OPEN_PAIRS_CARDS + 1
     //   this.points = this.points + this.UNSOLVED_PAIRS_CARDS * this.MULTIPLIED_NUM
     //   if (this.UNSOLVED_PAIRS_CARDS === 0) {
     //     setTimeout(this.gameEnd, this.TIME_JOB_CARD_ZERO)
-    //   }
-    // },
-    // setClassOutside () {
-    //   this.counterCheckCard = 0
-    //   var elements = document.querySelectorAll('.card[data-open="true"]')
-    //   elements(function (item) {
-    //     item.classList.toggle('card__outside')
-    //     item.removeAttribute('data-open')
-    //   })
-    //   this.points = this.points - this.OPEN_PAIRS_CARDS * this.MULTIPLIED_NUM
-    // },
-    // checkCardsOpen () {
-    //   var cards = document.querySelectorAll('.card[data-open="true"]')
-    //   var card1 = cards[0].className.substring(5)
-    //   var card2 = cards[1].className.substring(5)
-    //   if (card1 === card2) {
-    //     setTimeout(this.setOneClassOpenCards, this.TIME_JOB_CARD)
-    //   } else {
-    //     this.clearTimeId(this.timerSetOutsideCardsId)
-    //     this.timerSetOutsideCardsId = setTimeout(this.setClassOutside, this.TIME_JOB_CARD)
-    //   }
-    // },
-    // clickCardHandler (evt) {
-    //   if (this.isOutside && evt.target.classList.contains('card__outside')) {
-    //     if (this.counterCheckCard < 2) {
-    //       this.counterCheckCard++
-    //       evt.target.setAttribute('data-open', 'true')
-    //       evt.target.classList.toggle('card__outside')
-    //     }
-    //     if (this.counterCheckCard === 2) {
-    //       this.checkCardsOpen()
-    //     }
-    //   }
     // }
+    },
+    setClassOutside () {
+      this.counterOpenCard = 0
+      var elements = document.querySelectorAll('.card[data-open="true"]')
+      elements.forEach((item) => {
+        item.classList.add('card__outside')
+        item.removeAttribute('data-open')
+      })
+      // this.points = this.points - this.OPEN_PAIRS_CARDS * this.MULTIPLIED_NUM
+    },
+    checkCardsOpen (element) {
+      var cards = element.querySelectorAll('.card[data-open="true"]')
+      var card1 = cards[0].className.substring(5)
+      var card2 = cards[1].className.substring(5)
+      if (card1 === card2) {
+        console.log('open true')
+        setTimeout(this.setOneClassOpenCards, this.TIME_JOB_CARD)
+      } else {
+        console.log('open false')
+        this.clearTimeId(this.timerSetOutsideCardsId)
+        this.timerSetOutsideCardsId = setTimeout(this.setClassOutside, this.TIME_JOB_CARD)
+      }
+    },
+    clickCardHandler (event) {
+      if (this.isOutside !== true) {
+        return false
+      }
+      if (this.isOutside && event.target.classList.contains('card__outside')) {
+        console.log(event.target.classList.contains('card__outside'))
+        if (this.counterOpenCard < 2) {
+          event.target.setAttribute('data-open', 'true')
+          event.target.classList.remove('card__outside')
+          this.counterOpenCard++
+        }
+        if (this.counterOpenCard === 2) {
+          this.checkCardsOpen(event.target.parentElement)
+        }
+      } else {
+        return false
+      }
+    }
   }
 }
 </script>
@@ -166,7 +169,6 @@ span {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  cursor: pointer;
   flex-basis: 16.66666666666667%;
   margin-bottom: 2px;
   &__0C {
@@ -188,6 +190,7 @@ span {
     background-image: url('../assets/cards/card-outside.png');
     background-size: 100%;
     border-radius: 5px;
+    cursor: pointer;
   }
 }
 </style>
