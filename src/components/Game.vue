@@ -53,7 +53,6 @@ export default {
       this.counterOpenCard = 0
       this.UNSOLVED_PAIRS_CARDS = this.UNSOLVED_PAIRS_CARDS - 1
       this.OPEN_PAIRS_CARDS = this.OPEN_PAIRS_CARDS + 1
-      // this.points = this.points + this.UNSOLVED_PAIRS_CARDS * this.MULTIPLIED_NUM
       this.plusPoints(this.gamePoints + this.UNSOLVED_PAIRS_CARDS * this.MULTIPLIED_NUM)
       if (this.UNSOLVED_PAIRS_CARDS === 0) {
         setTimeout(this.gameEnd, this.TIME_JOB_CARD_ZERO)
@@ -66,7 +65,6 @@ export default {
         item.classList.add('card__outside')
         item.removeAttribute('data-open')
       })
-      // this.points = this.points - this.OPEN_PAIRS_CARDS * this.MULTIPLIED_NUM
       this.minusPoints(this.gamePoints - this.OPEN_PAIRS_CARDS * this.MULTIPLIED_NUM)
     },
     checkCardsOpen (element) {

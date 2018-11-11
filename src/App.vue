@@ -102,7 +102,6 @@ body {
   color: #fff;
   display: flex;
   justify-content: center;
-  // align-items: center;
   flex-direction: column;
   @media screen and (min-height: 387px){
     height: 100vh;
