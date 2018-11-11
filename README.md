@@ -1,1 +1,1 @@
-# [look in internet](https://alte0.github.io/fun-html/)
+# [look in internet](https://alte0.github.io/cards-game-vuejs/)
