@@ -1,7 +1,7 @@
 <template lang="pug">
   .container
     .game-header
-      button.btn.btn_start-over(v-on:click="onRestartGame") Начать заново
+      button.btn.btn_start-over(v-on:click="onRestartGame" @click="setOutsideCardsForTime()") Начать заново
       span Очки:&nbsp;
       span {{ gamePoints }}
     .game-cards
@@ -19,14 +19,17 @@ export default {
       counterCheckCard: 0,
       TIME_JOB_CARD: 2000,
       TIME_JOB_CARD_ZERO: 1000,
-      timerOutsideCardsId: '',
-      timerSetOutsideCardsId: '',
+      timerOutsideCardsId: null,
+      timerSetOutsideCardsId: null,
       MULTIPLIED_NUM: 42,
       UNSOLVED_PAIRS_CARDS: 9,
       OPEN_PAIRS_CARDS: 0
     }
   },
   computed: {
+  },
+  mounted: function () {
+    this.setOutsideCardsForTime()
   },
   methods: {
     // gameEnd () {
@@ -38,12 +41,13 @@ export default {
     setOutsideCards () {
       this.isOutside = true
     },
-    // clearTimeId (timerID) {
-    //   if (timerID) {
-    //     clearTimeout(timerID)
-    //   }
-    // },
+    clearTimeId (timerID) {
+      if (timerID) {
+        clearTimeout(timerID)
+      }
+    },
     setOutsideCardsForTime () {
+      this.isOutside = false
       this.clearTimeId(this.timerOutsideCardsId)
       this.timerOutsideCardsId = setTimeout(this.setOutsideCards, this.TIME_OUTSIDE_CARDS)
     }

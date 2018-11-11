@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Intro v-if="isIntro" :onStartGame="startGame"></Intro>
-    <Game v-else-if="isGame" :gamePoints="points" :dataCards="cards" :onRestartGame="randomCards"></Game>
+    <Game v-else-if="isGame" :gamePoints="points" :dataCards="cards" :onRestartGame="startGame"></Game>
     <Result v-else :playAgain="startGame" :resultPoints="points"></Result>
   </div>
 </template>
@@ -30,6 +30,7 @@ export default {
   },
   methods: {
     startGame () {
+      this.points = 0
       this.isIntro = false
       this.isGame = true
       this.randomCards()
