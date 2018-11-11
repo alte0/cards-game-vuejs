@@ -10,11 +10,11 @@
 
 <script>
 export default {
-  props: ['gamePoints', 'dataCards', 'onRestartGame', 'setPoint'],
+  props: ['gamePoints', 'dataCards', 'onRestartGame', 'plusPoints', 'minusPoints', 'gameEnd'],
   data () {
     return {
       isOutside: false,
-      TIME_OUTSIDE_CARDS: 3000,
+      TIME_OUTSIDE_CARDS: 5000,
       counterOpenCard: 0,
       TIME_JOB_CARD: 2000,
       TIME_JOB_CARD_ZERO: 1000,
@@ -31,9 +31,6 @@ export default {
     this.setOutsideCardsForTime()
   },
   methods: {
-    // gameEnd () {
-    //   this.screenPlay = false
-    // },
     setOutsideCards () {
       this.isOutside = true
     },
@@ -54,12 +51,13 @@ export default {
         item.removeAttribute('data-open')
       })
       this.counterOpenCard = 0
-    //   this.UNSOLVED_PAIRS_CARDS = this.UNSOLVED_PAIRS_CARDS - 1
-    //   this.OPEN_PAIRS_CARDS = this.OPEN_PAIRS_CARDS + 1
-    //   this.points = this.points + this.UNSOLVED_PAIRS_CARDS * this.MULTIPLIED_NUM
-    //   if (this.UNSOLVED_PAIRS_CARDS === 0) {
-    //     setTimeout(this.gameEnd, this.TIME_JOB_CARD_ZERO)
-    // }
+      this.UNSOLVED_PAIRS_CARDS = this.UNSOLVED_PAIRS_CARDS - 1
+      this.OPEN_PAIRS_CARDS = this.OPEN_PAIRS_CARDS + 1
+      // this.points = this.points + this.UNSOLVED_PAIRS_CARDS * this.MULTIPLIED_NUM
+      this.plusPoints(this.gamePoints + this.UNSOLVED_PAIRS_CARDS * this.MULTIPLIED_NUM)
+      if (this.UNSOLVED_PAIRS_CARDS === 0) {
+        setTimeout(this.gameEnd, this.TIME_JOB_CARD_ZERO)
+      }
     },
     setClassOutside () {
       this.counterOpenCard = 0
@@ -69,16 +67,15 @@ export default {
         item.removeAttribute('data-open')
       })
       // this.points = this.points - this.OPEN_PAIRS_CARDS * this.MULTIPLIED_NUM
+      this.minusPoints(this.gamePoints - this.OPEN_PAIRS_CARDS * this.MULTIPLIED_NUM)
     },
     checkCardsOpen (element) {
       var cards = element.querySelectorAll('.card[data-open="true"]')
       var card1 = cards[0].className.substring(5)
       var card2 = cards[1].className.substring(5)
       if (card1 === card2) {
-        console.log('open true')
         setTimeout(this.setOneClassOpenCards, this.TIME_JOB_CARD)
       } else {
-        console.log('open false')
         this.clearTimeId(this.timerSetOutsideCardsId)
         this.timerSetOutsideCardsId = setTimeout(this.setClassOutside, this.TIME_JOB_CARD)
       }

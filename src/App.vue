@@ -1,8 +1,23 @@
 <template>
   <div id="app">
-    <Intro v-if="isIntro" :onStartGame="startGame"></Intro>
-    <Game v-else-if="isGame" :gamePoints="points" :dataCards="cards" :onRestartGame="startGame" :setPoint="changePoints"></Game>
-    <Result v-else :playAgain="startGame" :resultPoints="points"></Result>
+    <Intro
+      v-if="isIntro"
+      :onStartGame="startGame"
+      ></Intro>
+    <Game
+      v-else-if="isGame"
+      :gamePoints="points"
+      :dataCards="cards"
+      :onRestartGame="startGame"
+      :gameEnd="gameEnd"
+      :plusPoints="addPoints"
+      :minusPoints="deductPoints"
+      ></Game>
+    <Result
+      v-else
+      :playAgain="startGame"
+      :resultPoints="points"
+      ></Result>
   </div>
 </template>
 
@@ -31,14 +46,20 @@ export default {
   // computed: {
   //   },
   methods: {
-    changePoints (point) {
+    addPoints (point) {
       this.points = this.points + point
+    },
+    deductPoints (point) {
+      this.points = this.points - point
     },
     startGame () {
       this.points = 0
       this.isIntro = false
       this.isGame = true
       this.randomCards()
+    },
+    gameEnd () {
+      this.isGame = false
     },
     /**
      * @param {Array} arr
