@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    img(src="../assets/Result.png" srcset="../assets/Result.png 1x, ../assets/Result@2x.png 2x" alt="Картинка карт")
+    img(src="@/assets/result.png" srcset="@/assets/result.png 1x, @/assets/result@2x.png 2x" alt="Картинка карт")
     h1.title_final-score Поздравляем!
       br
       | Ваш итоговый счет:

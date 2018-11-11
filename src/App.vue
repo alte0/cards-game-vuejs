@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Intro v-if="isIntro" :onStartGame="startGame"></Intro>
-    <Game v-else-if="isGame" :gamePoints="points" :dataCards="cards"></Game>
+    <Game v-else-if="isGame" :gamePoints="points" :dataCards="cards" :onRestartGame="randomCards"></Game>
     <Result v-else :playAgain="startGame" :resultPoints="points"></Result>
   </div>
 </template>
@@ -23,8 +23,8 @@ export default {
       isIntro: true,
       isGame: false,
       points: 0,
-      CARDS_ARRAY: ['0', '2', '3', '4', '5', '6', '7', '8', '9', 'J', 'A', 'K', 'Q'],
-      CARDS_ARRAY_STR: ['C', 'D', 'H', 'S'],
+      CARDS_ARRAY_VALUE: ['0', '2', '3', '4', '5', '6', '7', '8', '9', 'J', 'A', 'K', 'Q'],
+      CARDS_ARRAY_SUITS: ['C', 'D', 'H', 'S'],
       cards: []
     }
   },
@@ -34,28 +34,28 @@ export default {
       this.isGame = true
       this.randomCards()
     },
-    randomValueArray: function (array) {
-      return Math.round(Math.random() * (array.length - 1))
+    /**
+     * @param {Array} arr
+     * @return {Number}
+     */
+    randomValueArray (arr) {
+      return Math.round(Math.random() * (arr.length - 1))
     },
-    randomCards: function () {
-      var cardsResultTemp = []
-      var cardsTemp = []
-      var arrayCards = this.CARDS_ARRAY.slice()
-      var randomValueCardsSuit = this.CARDS_ARRAY_STR[this.randomValueArray(this.CARDS_ARRAY_STR)]
-      this.cards.splice(0)
+    randomCards () {
+      let cardsTemp = []
+      let valueCards = this.CARDS_ARRAY_VALUE.slice()
+      let randomValueCardsSuit = this.CARDS_ARRAY_SUITS[this.randomValueArray(this.CARDS_ARRAY_SUITS)]
+      this.cards = []
 
-      for (var i = 0; i < 9; i++) {
-        cardsTemp.push(arrayCards.splice(this.randomValueArray(arrayCards), 1)[0])
+      for (let i = 0; i < 9; i++) {
+        let valueCard = valueCards.splice(this.randomValueArray(valueCards), 1)[0]
+        for (let i = 0; i < 2; i++) {
+          cardsTemp.push('card__' + valueCard + randomValueCardsSuit)
+        }
       }
 
-      cardsTemp.forEach(function (item) {
-        for (var i = 0; i < 2; i++) {
-          cardsResultTemp.push('card__' + item + randomValueCardsSuit)
-        }
-      })
-
       for (let i = 0; i < 18; i++) {
-        this.cards.push(cardsResultTemp.splice(this.randomValueArray(cardsResultTemp), 1)[0])
+        this.cards.push(cardsTemp.splice(this.randomValueArray(cardsTemp), 1)[0])
       }
     }
   }
