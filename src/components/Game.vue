@@ -4,7 +4,7 @@
       button.btn.btn_start-over(v-on:click="onRestartGame" @click="setOutsideCardsForTime()") Начать заново
       span Очки:&nbsp;
       span {{ gamePoints }}
-    .game-cards
+    .game-cards(ref="cards")
       .card(v-for="card in dataCards" v-bind:class="[card, { card__outside: isOutside }]" v-on:click="clickCardHandler($event)")
 </template>
 
@@ -45,7 +45,7 @@ export default {
       this.timerOutsideCardsId = setTimeout(this.setOutsideCards, this.TIME_OUTSIDE_CARDS)
     },
     setOneClassOpenCards () {
-      var elements = document.querySelectorAll('.card[data-open="true"]')
+      var elements = this.$refs.cards.querySelectorAll('.card[data-open="true"]')
       elements.forEach((item) => {
         item.className = 'card'
         item.removeAttribute('data-open')
@@ -60,7 +60,7 @@ export default {
     },
     setClassOutside () {
       this.counterOpenCard = 0
-      var elements = document.querySelectorAll('.card[data-open="true"]')
+      var elements = this.$refs.cards.querySelectorAll('.card[data-open="true"]')
       elements.forEach((item) => {
         item.classList.add('card__outside')
         item.removeAttribute('data-open')
@@ -83,14 +83,14 @@ export default {
         return false
       }
       if (this.isOutside && event.target.classList.contains('card__outside')) {
-        console.log(event.target.classList.contains('card__outside'))
         if (this.counterOpenCard < 2) {
           event.target.setAttribute('data-open', 'true')
           event.target.classList.remove('card__outside')
           this.counterOpenCard++
         }
         if (this.counterOpenCard === 2) {
-          this.checkCardsOpen(event.target.parentElement)
+          // this.checkCardsOpen(event.target.parentElement)
+          this.checkCardsOpen(this.$refs.cards)
         }
       } else {
         return false
