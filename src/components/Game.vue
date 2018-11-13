@@ -11,7 +11,6 @@
       .card(
         v-for="card in dataCards"
         :class="[card, { card_outside: isOutside }]"
-        :data-open="restart ? '' : ''"
         ref="cards"
         v-on:click="clickCardHandler($event)"
         )
@@ -35,8 +34,6 @@ export default {
       UNSOLVED_PAIRS_CARDS: 9,
       OPEN_PAIRS_CARDS: 0
     }
-  },
-  computed: {
   },
   mounted: function () {
     this.setOutsideCardsForTime()
@@ -84,11 +81,12 @@ export default {
       this.minusPoints(this.gamePoints - this.OPEN_PAIRS_CARDS * this.MULTIPLIED_NUM)
     },
     checkCardsOpen () {
-      const cards = this.$refs.wrapcards.querySelectorAll('.card[data-open="true"]')
-      const card1 = cards[0].className.substring(5)
-      const card2 = cards[1].className.substring(5)
-      if (card1 === card2) {
-        setTimeout(this.setOneClassOpenCards, this.TIME_JOB_CARD)
+      let cards = []
+      this.$refs.cards.forEach(item => {
+        return item.getAttribute('data-open') ? cards.push(item.className) : ''
+      })
+      if (cards[0] === cards[1]) {
+        setTimeout(this.setOneClassOpenCards, this.TIME_JOB_CARD_ZERO)
       } else {
         this.clearTimeId(this.timerSetOutsideCardsId)
         this.timerSetOutsideCardsId = setTimeout(this.setClassOutside, this.TIME_JOB_CARD)
@@ -107,9 +105,8 @@ export default {
         if (this.counterOpenCard === 2) {
           this.checkCardsOpen()
         }
-      } else {
-        return false
       }
+      return false
     }
   }
 }
@@ -132,6 +129,7 @@ export default {
 
 .game-cards {
   justify-content: center;
+  perspective: 700px;
 }
 
 span {

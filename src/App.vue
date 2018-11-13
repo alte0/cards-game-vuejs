@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <p v-if="isNotSupportIe" class="not-support">Internet Explorer не поддерживается</p>
     <Intro
       v-if="isIntro"
       :onStartGame="startGame"
@@ -14,7 +15,7 @@
       :minusPoints="setPoints"
       ></Game>
     <Result
-      v-else
+      v-else-if="!isNotSupportIe"
       :playAgain="startGame"
       :resultPoints="points"
       ></Result>
@@ -35,7 +36,8 @@ export default {
   },
   data () {
     return {
-      isIntro: true,
+      isNotSupportIe: true,
+      isIntro: false,
       isGame: false,
       points: 0,
       CARDS_ARRAY_VALUE: ['0', '2', '3', '4', '5', '6', '7', '8', '9', 'J', 'A', 'K', 'Q'],
@@ -43,8 +45,6 @@ export default {
       cards: []
     }
   },
-  // computed: {
-  //   },
   methods: {
     setPoints (point) {
       this.points = point
@@ -82,6 +82,13 @@ export default {
         this.cards.push(cardsTemp.splice(this.randomValueArray(cardsTemp), 1)[0])
       }
     }
+  },
+  beforeMount: function () {
+    const sUsrAg = navigator.userAgent
+    if (sUsrAg.indexOf('Trident') === -1) {
+      this.isNotSupportIe = false
+      this.isIntro = true
+    }
   }
 }
 </script>
@@ -93,6 +100,10 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+.not-support {
+  font-size: 2rem;
+  font-weight: bold;
 }
 #app {
   font-family: Open Sans,sans-serif;
