@@ -74,7 +74,7 @@ export default {
       for (let i = 0; i < 9; i++) {
         let valueCard = valueCards.splice(this.randomValueArray(valueCards), 1)[0]
         for (let i = 0; i < 2; i++) {
-          cardsTemp.push('card_' + valueCard + randomValueCardsSuit)
+          cardsTemp.push(valueCard + randomValueCardsSuit)
         }
       }
 

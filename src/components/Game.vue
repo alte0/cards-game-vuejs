@@ -1,11 +1,22 @@
 <template lang="pug">
   .container
     .game-header
-      button.btn.btn_start-over(v-on:click="onRestartGame" @click="setOutsideCardsForTime()") Начать заново
+      button.btn.btn_start-over(
+                                v-on:click="onRestartGame"
+                                @click="setOutsideCardsForTime()"
+                                ) Начать заново
       span Очки:&nbsp;
       span {{ gamePoints }}
     .game-cards(ref="wrapcards")
-      .card(v-for="card in dataCards" v-bind:class="[card, { card_outside: isOutside }]" ref="cards" v-on:click="clickCardHandler($event)")
+      .card(
+        v-for="card in dataCards"
+        :class="[card, { card_outside: isOutside }]"
+        :data-open="restart ? '' : ''"
+        ref="cards"
+        v-on:click="clickCardHandler($event)"
+        )
+        .card__face(:class="'card__face_' + card")
+        .card__face.card__face_back
 </template>
 
 <script>
@@ -40,6 +51,9 @@ export default {
       }
     },
     setOutsideCardsForTime () {
+      this.$refs.cards.forEach((item) => {
+        item.removeAttribute('data-open')
+      })
       this.isOutside = false
       this.clearTimeId(this.timerOutsideCardsId)
       this.timerOutsideCardsId = setTimeout(this.setOutsideCards, this.TIME_OUTSIDE_CARDS)
@@ -47,7 +61,7 @@ export default {
     setOneClassOpenCards () {
       this.$refs.cards.forEach((item) => {
         if (item.getAttribute('data-open')) {
-          item.className = 'card card_none'
+          item.className = 'card card_ok'
           item.removeAttribute('data-open')
         }
       })
@@ -108,15 +122,18 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
+
 .game-header,
 .game-cards {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
+
 .game-cards {
   justify-content: center;
 }
+
 span {
   opacity: .8;
   font-weight: 600;
@@ -166,48 +183,50 @@ span {
 .card {
   height: 155px;
   width: 112px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
   margin: 2px;
   transition: transform 0.5s linear;
   transform-style: preserve-3d;
   position: relative;
-  &::after {
-    content: '';
-    border-radius: 5px;
-    background-image: url('../assets/cards/card-outside.png');
-    background-size: 100%;
-    position: absolute;
+  &_ok {
+    transform: scale(0.8);
+  }
+  &__face {
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
+    backface-visibility: hidden;
+    border-radius: 5px;
+    position: absolute;
+    pointer-events: none;
+    left: 0;
+    top: 0;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    transform: rotateY(1deg);
-    transform-origin: 0 50%;
+    &_0C {
+      .b-i('0C')
+    }
+    &_0D {
+      .b-i('0D')
+    }
+    &_0H {
+      .b-i('0H')
+    }
+    &_0S {
+      .b-i('0S')
+    }
+    .numscard(9);
+    .numscardChars();
+    &_back {
+      background-image: url('../assets/cards/card-outside.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      transform: rotateY(180deg);
+    }
   }
-  &_none::after {
-    background-image: none;
-  }
-  &_0C {
-    .b-i('0C')
-  }
-  &_0D {
-    .b-i('0D')
-  }
-  &_0H {
-    .b-i('0H')
-  }
-  &_0S {
-    .b-i('0S')
-  }
-
-  .numscard(9);
-  .numscardChars();
   &_outside {
-    border-radius: 5px;
     cursor: pointer;
     transform: rotateY(180deg);
   }
