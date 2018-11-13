@@ -10,8 +10,8 @@
       :dataCards="cards"
       :onRestartGame="startGame"
       :gameEnd="gameEnd"
-      :plusPoints="addPoints"
-      :minusPoints="deductPoints"
+      :plusPoints="setPoints"
+      :minusPoints="setPoints"
       ></Game>
     <Result
       v-else
@@ -46,11 +46,8 @@ export default {
   // computed: {
   //   },
   methods: {
-    addPoints (point) {
-      this.points = this.points + point
-    },
-    deductPoints (point) {
-      this.points = this.points - point
+    setPoints (point) {
+      this.points = point
     },
     startGame () {
       this.points = 0

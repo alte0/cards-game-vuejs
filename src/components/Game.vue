@@ -4,8 +4,8 @@
       button.btn.btn_start-over(v-on:click="onRestartGame" @click="setOutsideCardsForTime()") Начать заново
       span Очки:&nbsp;
       span {{ gamePoints }}
-    .game-cards(ref="cards")
-      .card(v-for="card in dataCards" v-bind:class="[card, { card_outside: isOutside }]" v-on:click="clickCardHandler($event)")
+    .game-cards(ref="wrapcards")
+      .card(v-for="card in dataCards" v-bind:class="[card, { card_outside: isOutside }]" ref="cards" v-on:click="clickCardHandler($event)")
 </template>
 
 <script>
@@ -45,10 +45,11 @@ export default {
       this.timerOutsideCardsId = setTimeout(this.setOutsideCards, this.TIME_OUTSIDE_CARDS)
     },
     setOneClassOpenCards () {
-      var elements = this.$refs.cards.querySelectorAll('.card[data-open="true"]')
-      elements.forEach((item) => {
-        item.className = 'card'
-        item.removeAttribute('data-open')
+      this.$refs.cards.forEach((item) => {
+        if (item.getAttribute('data-open')) {
+          item.className = 'card card_none'
+          item.removeAttribute('data-open')
+        }
       })
       this.counterOpenCard = 0
       this.UNSOLVED_PAIRS_CARDS = this.UNSOLVED_PAIRS_CARDS - 1
@@ -60,17 +61,18 @@ export default {
     },
     setClassOutside () {
       this.counterOpenCard = 0
-      var elements = this.$refs.cards.querySelectorAll('.card[data-open="true"]')
-      elements.forEach((item) => {
-        item.classList.add('card_outside')
-        item.removeAttribute('data-open')
+      this.$refs.cards.forEach((item) => {
+        if (item.getAttribute('data-open')) {
+          item.classList.add('card_outside')
+          item.removeAttribute('data-open')
+        }
       })
       this.minusPoints(this.gamePoints - this.OPEN_PAIRS_CARDS * this.MULTIPLIED_NUM)
     },
-    checkCardsOpen (element) {
-      var cards = element.querySelectorAll('.card[data-open="true"]')
-      var card1 = cards[0].className.substring(5)
-      var card2 = cards[1].className.substring(5)
+    checkCardsOpen () {
+      const cards = this.$refs.wrapcards.querySelectorAll('.card[data-open="true"]')
+      const card1 = cards[0].className.substring(5)
+      const card2 = cards[1].className.substring(5)
       if (card1 === card2) {
         setTimeout(this.setOneClassOpenCards, this.TIME_JOB_CARD)
       } else {
@@ -89,7 +91,7 @@ export default {
           this.counterOpenCard++
         }
         if (this.counterOpenCard === 2) {
-          this.checkCardsOpen(this.$refs.cards)
+          this.checkCardsOpen()
         }
       } else {
         return false
@@ -164,17 +166,16 @@ span {
 .card {
   height: 155px;
   width: 112px;
-  // width: 16.71428571428571%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  // flex-basis: 16.66666666666667%;
   margin: 2px;
   transition: transform 0.5s linear;
   transform-style: preserve-3d;
   position: relative;
   &::after {
     content: '';
+    border-radius: 5px;
     background-image: url('../assets/cards/card-outside.png');
     background-size: 100%;
     position: absolute;
@@ -186,6 +187,9 @@ span {
     height: 100%;
     transform: rotateY(1deg);
     transform-origin: 0 50%;
+  }
+  &_none::after {
+    background-image: none;
   }
   &_0C {
     .b-i('0C')
