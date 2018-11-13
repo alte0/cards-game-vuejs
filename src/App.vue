@@ -77,7 +77,7 @@ export default {
       for (let i = 0; i < 9; i++) {
         let valueCard = valueCards.splice(this.randomValueArray(valueCards), 1)[0]
         for (let i = 0; i < 2; i++) {
-          cardsTemp.push('card__' + valueCard + randomValueCardsSuit)
+          cardsTemp.push('card_' + valueCard + randomValueCardsSuit)
         }
       }
 
@@ -93,6 +93,9 @@ export default {
 body {
   background-color: #1b692d;
   margin: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 #app {
   font-family: Open Sans,sans-serif;
@@ -104,7 +107,7 @@ body {
   justify-content: center;
   flex-direction: column;
   @media screen and (min-height: 387px){
-    height: 100vh;
+    min-height: 100vh;
   }
 }
 img {

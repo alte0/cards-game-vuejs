@@ -5,7 +5,7 @@
       span Очки:&nbsp;
       span {{ gamePoints }}
     .game-cards(ref="cards")
-      .card(v-for="card in dataCards" v-bind:class="[card, { card__outside: isOutside }]" v-on:click="clickCardHandler($event)")
+      .card(v-for="card in dataCards" v-bind:class="[card, { card_outside: isOutside }]" v-on:click="clickCardHandler($event)")
 </template>
 
 <script>
@@ -62,7 +62,7 @@ export default {
       this.counterOpenCard = 0
       var elements = this.$refs.cards.querySelectorAll('.card[data-open="true"]')
       elements.forEach((item) => {
-        item.classList.add('card__outside')
+        item.classList.add('card_outside')
         item.removeAttribute('data-open')
       })
       this.minusPoints(this.gamePoints - this.OPEN_PAIRS_CARDS * this.MULTIPLIED_NUM)
@@ -82,14 +82,13 @@ export default {
       if (this.isOutside !== true) {
         return false
       }
-      if (this.isOutside && event.target.classList.contains('card__outside')) {
+      if (this.isOutside && event.target.classList.contains('card_outside')) {
         if (this.counterOpenCard < 2) {
           event.target.setAttribute('data-open', 'true')
-          event.target.classList.remove('card__outside')
+          event.target.classList.remove('card_outside')
           this.counterOpenCard++
         }
         if (this.counterOpenCard === 2) {
-          // this.checkCardsOpen(event.target.parentElement)
           this.checkCardsOpen(this.$refs.cards)
         }
       } else {
@@ -113,6 +112,9 @@ export default {
   flex-direction: row;
   flex-wrap: wrap;
 }
+.game-cards {
+  justify-content: center;
+}
 span {
   opacity: .8;
   font-weight: 600;
@@ -126,16 +128,16 @@ span {
 
 .numscard(@num) when (@num >= 2) {
   .numscard(@num - 1);
-  &__@{num}C {
+  &_@{num}C {
     .b-i('@{num}C')
   }
-  &__@{num}D {
+  &_@{num}D {
     .b-i('@{num}D')
   }
-  &__@{num}H {
+  &_@{num}H {
     .b-i('@{num}H')
   }
-  &__@{num}S {
+  &_@{num}S {
     .b-i('@{num}S')
   }
 }
@@ -145,47 +147,65 @@ span {
 .numscardChars(@i: length(@chars)) when (@i > 0) {
   .numscardChars(@i - 1);
   @char: extract(@chars, @i);
-  &__@{char}C {
+  &_@{char}C {
     .b-i('@{char}C')
   }
-  &__@{char}D {
+  &_@{char}D {
     .b-i('@{char}D')
   }
-  &__@{char}H {
+  &_@{char}H {
     .b-i('@{char}H')
   }
-  &__@{char}S {
+  &_@{char}S {
     .b-i('@{char}S')
   }
 }
 
 .card {
-  height: 163px;
+  height: 155px;
+  width: 112px;
+  // width: 16.71428571428571%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  flex-basis: 16.66666666666667%;
-  margin-bottom: 2px;
-  &__0C {
+  // flex-basis: 16.66666666666667%;
+  margin: 2px;
+  transition: transform 0.5s linear;
+  transform-style: preserve-3d;
+  position: relative;
+  &::after {
+    content: '';
+    background-image: url('../assets/cards/card-outside.png');
+    background-size: 100%;
+    position: absolute;
+    background-repeat: no-repeat;
+    background-position: center;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotateY(1deg);
+    transform-origin: 0 50%;
+  }
+  &_0C {
     .b-i('0C')
   }
-  &__0D {
+  &_0D {
     .b-i('0D')
   }
-  &__0H {
+  &_0H {
     .b-i('0H')
   }
-  &__0S {
+  &_0S {
     .b-i('0S')
   }
 
   .numscard(9);
   .numscardChars();
-  &__outside {
-    background-image: url('../assets/cards/card-outside.png');
-    background-size: 100%;
+  &_outside {
     border-radius: 5px;
     cursor: pointer;
+    transform: rotateY(180deg);
   }
 }
 </style>
