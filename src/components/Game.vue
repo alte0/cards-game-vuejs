@@ -43,9 +43,6 @@ export default {
       return this.$store.getters.getPoints
     }
   },
-  mounted: function () {
-    this.setOutsideCardsForTime()
-  },
   methods: {
     setOutsideCards () {
       this.isOutside = true
@@ -119,6 +116,9 @@ export default {
       }
       return false
     }
+  },
+  mounted: function () {
+    this.setOutsideCardsForTime()
   }
 }
 </script>

@@ -4,12 +4,17 @@
     h1.title_final-score Поздравляем!
       br
       | Ваш итоговый счет:
-      span  {{ resultPoints }}
+      span  {{ points }}
     button.btn(v-on:click="playAgain") Еще раз
 </template>
 
 <script>
 export default {
-  props: ['playAgain', 'resultPoints']
+  props: ['playAgain'],
+  computed: {
+    points () {
+      return this.$store.getters.getPoints
+    }
+  }
 }
 </script>
