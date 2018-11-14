@@ -6,7 +6,7 @@
                                 @click="setOutsideCardsForTime()"
                                 ) Начать заново
       span Очки:&nbsp;
-      span {{ gamePoints }}
+      span {{ points }}
     .game-cards(ref="wrapcards")
       .card(
         v-for="card in dataCards"
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  props: ['gamePoints', 'dataCards', 'onRestartGame', 'plusPoints', 'minusPoints', 'gameEnd'],
+  props: ['onRestartGame', 'gameEnd'],
   data () {
     return {
       isOutside: false,
@@ -33,6 +33,14 @@ export default {
       MULTIPLIED_NUM: 42,
       UNSOLVED_PAIRS_CARDS: 9,
       OPEN_PAIRS_CARDS: 0
+    }
+  },
+  computed: {
+    dataCards () {
+      return this.$store.getters.getCards
+    },
+    points () {
+      return this.$store.getters.getPoints
     }
   },
   mounted: function () {
@@ -48,6 +56,9 @@ export default {
       }
     },
     setOutsideCardsForTime () {
+      this.UNSOLVED_PAIRS_CARDS = 9
+      this.OPEN_PAIRS_CARDS = 0
+      this.$store.commit('setPoints', 0)
       this.$refs.cards.forEach((item) => {
         item.removeAttribute('data-open')
       })
@@ -65,7 +76,7 @@ export default {
       this.counterOpenCard = 0
       this.UNSOLVED_PAIRS_CARDS = this.UNSOLVED_PAIRS_CARDS - 1
       this.OPEN_PAIRS_CARDS = this.OPEN_PAIRS_CARDS + 1
-      this.plusPoints(this.gamePoints + this.UNSOLVED_PAIRS_CARDS * this.MULTIPLIED_NUM)
+      this.$store.commit('setPoints', this.points + this.UNSOLVED_PAIRS_CARDS * this.MULTIPLIED_NUM)
       if (this.UNSOLVED_PAIRS_CARDS === 0) {
         setTimeout(this.gameEnd, this.TIME_JOB_CARD_ZERO)
       }
@@ -78,7 +89,7 @@ export default {
           item.removeAttribute('data-open')
         }
       })
-      this.minusPoints(this.gamePoints - this.OPEN_PAIRS_CARDS * this.MULTIPLIED_NUM)
+      this.$store.commit('setPoints', this.points - this.OPEN_PAIRS_CARDS * this.MULTIPLIED_NUM)
     },
     checkCardsOpen () {
       let cards = []
