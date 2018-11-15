@@ -14,7 +14,7 @@
         ref="cards"
         v-on:click="clickCardHandler($event)"
         )
-        .card__face(:class="'card__face_' + card")
+        .card__face.card__face_front(:class="'card__face_' + card")
         .card__face.card__face_back
 </template>
 
@@ -193,8 +193,9 @@ span {
   height: 155px;
   width: 112px;
   margin: 2px;
-  transition: transform 0.5s linear;
-  transform-style: preserve-3d;
+  transition: all 0.5s linear;
+  transition: transform 0.4s linear, opacity 0.4s linear;
+  perspective: 1000;
   position: relative;
   &_ok {
     transform: scale(0.8);
@@ -203,7 +204,6 @@ span {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    backface-visibility: hidden;
     border-radius: 5px;
     position: absolute;
     pointer-events: none;
@@ -213,6 +213,7 @@ span {
     top: 0;
     width: 100%;
     height: 100%;
+    transition: opacity 0.4s linear;
     &_0C {
       .b-i('0C')
     }
@@ -233,11 +234,19 @@ span {
       background-repeat: no-repeat;
       background-position: center;
       transform: rotateY(180deg);
+      opacity: 0;
     }
   }
   &_outside {
     cursor: pointer;
     transform: rotateY(180deg);
+    & .card__face_front {
+        opacity: 0;
+    }
+
+    & .card__face_back {
+        opacity: 1;
+    }
   }
 }
 </style>

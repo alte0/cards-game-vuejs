@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <p v-if="isNotSupportIe" class="not-support">Internet Explorer не поддерживается</p>
     <Intro
       v-if="isIntro"
       :onStartGame="startGame"
@@ -33,8 +32,7 @@ export default {
   },
   data () {
     return {
-      isNotSupportIe: true,
-      isIntro: false,
+      isIntro: true,
       isGame: false
     }
   },
@@ -54,13 +52,6 @@ export default {
     },
     gameEnd () {
       this.isGame = false
-    }
-  },
-  beforeMount: function () {
-    const sUsrAg = navigator.userAgent
-    if (sUsrAg.indexOf('Trident') === -1) {
-      this.isNotSupportIe = false
-      this.isIntro = true
     }
   }
 }
