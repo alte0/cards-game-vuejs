@@ -11,7 +11,6 @@
       :gameEnd="gameEnd"
       ></Game>
     <Result
-      v-else-if="!isNotSupportIe"
       :playAgain="startGame"
       :resultPoints="points"
       ></Result>
