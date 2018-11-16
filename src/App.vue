@@ -11,6 +11,7 @@
       :gameEnd="gameEnd"
       ></Game>
     <Result
+      v-else
       :playAgain="startGame"
       :resultPoints="points"
       ></Result>
