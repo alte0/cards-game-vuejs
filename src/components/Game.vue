@@ -114,7 +114,6 @@ export default {
           this.checkCardsOpen()
         }
       }
-      return false
     }
   },
   mounted: function () {
@@ -136,6 +135,12 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.game-header {
+  @media screen and (max-width: 420px) {
+    padding: 15px;
+  }
 }
 
 .game-cards {
@@ -197,6 +202,12 @@ span {
   transition: transform 0.4s linear, opacity 0.4s linear;
   perspective: 1000;
   position: relative;
+
+  @media screen and (max-width: 420px) {
+    height: 90px;
+    width: 70px;
+  }
+
   &_ok {
     transform: scale(0.8);
   }
