@@ -16,18 +16,5 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
-    <script src="https://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
-    <script type="text/javascript">
-      VK.init(function () {
-        // API initialization succeeded
-        // Your code here
-        console.info('API initialization succeeded')
-        vk.api("account.getProfileInfo", function (data) { console.info(data) })
-      }, function () {
-        // API initialization failed
-        // Can reload page here
-        console.info('API initialization failed')
-      }, '5.92');
-    </script>
   </body>
 </html>
