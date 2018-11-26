@@ -52,24 +52,9 @@ export default {
     },
     gameEnd () {
       this.isGame = false
-    },
-    initVk () {
-      VK.init(function () {
-        // API initialization succeeded
-        // Your code here
-        console.info(`API VK initialization succeeded`)
-        VK.api('account.getProfileInfo', function (data) {
-          console.info(`data ProfileInfo`, data)
-        })
-      }, function () {
-        // API initialization failed
-        // Can reload page here
-        console.info(`API VK initialization failed`)
-      })
     }
   },
   mounted: function () {
-    this.initVk()
   }
 }
 </script>
