@@ -58,7 +58,9 @@ export default {
         // API initialization succeeded
         // Your code here
         console.info(`API VK initialization succeeded`)
-        VK.callMethod('setTitle', 'New title')
+        VK.api('account.getProfileInfo', function (data) {
+          console.info(`data ProfileInfo`, data)
+        })
       }, function () {
         // API initialization failed
         // Can reload page here
