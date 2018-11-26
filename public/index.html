@@ -22,6 +22,7 @@
         // API initialization succeeded
         // Your code here
         console.info('API initialization succeeded')
+        vk.api("account.getProfileInfo", function (data) { console.info(data) })
       }, function () {
         // API initialization failed
         // Can reload page here
