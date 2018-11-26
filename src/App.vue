@@ -52,7 +52,22 @@ export default {
     },
     gameEnd () {
       this.isGame = false
+    },
+    initVk () {
+      VK.init(function () {
+        // API initialization succeeded
+        // Your code here
+        console.info(`API VK initialization succeeded`)
+        VK.callMethod('setTitle', 'New title')
+      }, function () {
+        // API initialization failed
+        // Can reload page here
+        console.info(`API VK initialization failed`)
+      })
     }
+  },
+  mounted: function () {
+    this.initVk()
   }
 }
 </script>
