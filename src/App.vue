@@ -3,6 +3,8 @@
     <Intro
       v-if="isIntro"
       :onStartGame="startGame"
+      :connectVk="initVk"
+      :userName="userNameVk"
       ></Intro>
     <Game
       v-else-if="isGame"
@@ -33,7 +35,8 @@ export default {
   data () {
     return {
       isIntro: true,
-      isGame: false
+      isGame: false,
+      userNameVk: 'Неизвестный'
     }
   },
   computed: {
@@ -53,26 +56,16 @@ export default {
     gameEnd () {
       this.isGame = false
     },
-    vkInit () {
+    initVk () {
       // eslint-disable-next-line
-      VK.init(function () {
-        // API initialization succeeded
-        // Your code here
-        console.info(`API initialization succeeded`)
-        // eslint-disable-next-line
-        VK.callMethod("showInstallBox");
-        // VK.api('account.getProfileInfo', { 'v': '5.92' }, function (response) {
-        //   console.info(response)
-        // })
-      }, function () {
-        // API initialization failed
-        // Can reload page here
-        console.info(`API initialization failed`)
-      }, '5.92')
+      VK.Auth.login(response => {
+        console.info(response)
+        // this.userNameVk =
+      })
     }
   },
   mounted: function () {
-    this.vkInit()
+    // this.vkInit()
   }
 }
 </script>
@@ -142,6 +135,9 @@ img {
     background-color: transparent;
     padding: 0;
     margin-right: auto;
+  }
+  &_vk {
+    margin-bottom: 1rem;
   }
 }
 </style>
