@@ -52,9 +52,23 @@ export default {
     },
     gameEnd () {
       this.isGame = false
+    },
+    vkInit () {
+      // eslint-disable-next-line
+      VK.init(function (response) {
+        // API initialization succeeded
+        // Your code here
+        console.info(`API initialization succeeded`)
+      }, function (response) {
+        // API initialization failed
+        // Can reload page here
+        console.info(`API initialization failed`)
+        console.info(response)
+      }, '5.92')
     }
   },
   mounted: function () {
+    this.vkInit()
   }
 }
 </script>
