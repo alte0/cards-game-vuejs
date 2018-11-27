@@ -59,6 +59,11 @@ export default {
         // API initialization succeeded
         // Your code here
         console.info(`API initialization succeeded`)
+        console.info(response)
+        // eslint-disable-next-line
+        VK.api('account.getProfileInfo', { 'v': '5.92' }, function (response) {
+          console.info(response)
+        })
       }, function (response) {
         // API initialization failed
         // Can reload page here
