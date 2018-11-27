@@ -55,20 +55,19 @@ export default {
     },
     vkInit () {
       // eslint-disable-next-line
-      VK.init(function (response) {
+      VK.init(function () {
         // API initialization succeeded
         // Your code here
         console.info(`API initialization succeeded`)
-        console.info(response)
         // eslint-disable-next-line
-        VK.api('account.getProfileInfo', { 'v': '5.92' }, function (response) {
-          console.info(response)
-        })
-      }, function (response) {
+        VK.callMethod("showInstallBox");
+        // VK.api('account.getProfileInfo', { 'v': '5.92' }, function (response) {
+        //   console.info(response)
+        // })
+      }, function () {
         // API initialization failed
         // Can reload page here
         console.info(`API initialization failed`)
-        console.info(response)
       }, '5.92')
     }
   },
