@@ -58,10 +58,17 @@ export default {
     },
     initVk () {
       // eslint-disable-next-line
-      VK.Auth.login(response => {
-        console.info(response)
-        // this.userNameVk =
-      })
+      VK.init(function () {
+        // API initialization succeeded
+        // Your code here
+        console.info(`API initialization succeeded`)
+        VK.api('account.getProfileInfo', {'v': '5.92'}, function (response) {
+          console.info(`response`, response)
+        })
+      }, function () {
+        // API initialization failed
+        // Can reload page here
+      }, '5.92')
     }
   },
   mounted: function () {
