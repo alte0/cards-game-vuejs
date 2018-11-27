@@ -3,8 +3,6 @@
     <Intro
       v-if="isIntro"
       :onStartGame="startGame"
-      :connectVk="initVk"
-      :userName="userNameVk"
       ></Intro>
     <Game
       v-else-if="isGame"
@@ -35,8 +33,7 @@ export default {
   data () {
     return {
       isIntro: true,
-      isGame: false,
-      userNameVk: 'Неизвестный'
+      isGame: false
     }
   },
   computed: {
@@ -55,24 +52,9 @@ export default {
     },
     gameEnd () {
       this.isGame = false
-    },
-    initVk () {
-      // eslint-disable-next-line
-      VK.init(function () {
-        // API initialization succeeded
-        // Your code here
-        console.info(`API initialization succeeded`)
-        VK.api('account.getProfileInfo', {'v': '5.92'}, function (response) {
-          console.info(`response`, response)
-        })
-      }, function () {
-        // API initialization failed
-        // Can reload page here
-      }, '5.92')
     }
   },
   mounted: function () {
-    // this.vkInit()
   }
 }
 </script>
